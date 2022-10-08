@@ -1,4 +1,4 @@
-import pygame, sys
+import pygame, sys, random
 
 def ball_movement():
 	global ball_speed_x, ball_speed_y
@@ -9,7 +9,7 @@ def ball_movement():
 	if ball.top <= 0 or ball.bottom >= screen_height:
 		ball_speed_y *= -1
 	if ball.left <= 0 or ball.right >= screen_width:
-		ball_speed_x *= -1
+		ball_reset()
 
 	if ball.colliderect(player) or ball.colliderect(computer):
 		ball_speed_x *= -1
@@ -32,6 +32,13 @@ def computer_movement():
 		computer.top = 0
 	if computer.bottom >= screen_height:
 		computer.bottom = screen_height
+
+def ball_reset():
+	global ball_speed_x, ball_speed_y
+
+	ball.center = (screen_width/2, screen_height/2)
+	ball_speed_y *= random.choice((1,-1))
+	ball_speed_x *= random.choice((1,-1))	
 		
 # BloddyPong general setup
 pygame.init()
@@ -45,15 +52,15 @@ pygame.display.set_caption('Welcome to BloodyPong!')
 
 # Rectangles
 ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)
-computer = pygame.Rect(screen_width - 20, screen_height / 2 - 70, 10, 140)
-player = pygame.Rect(10, screen_height / 2 - 70, 10, 140)
+player = pygame.Rect(screen_width - 20, screen_height / 2 - 70, 10, 140)
+computer = pygame.Rect(10, screen_height / 2 - 70, 10, 140)
 
 bg_color = '#1E1D1D'
 my_color = '#C32E2E'
 
 # Variables
-ball_speed_x = 5
-ball_speed_y = 5
+ball_speed_x = 5 * random.choice((1,-1))
+ball_speed_y = 5 * random.choice((1,-1))
 player_speed = 0
 computer_speed = 5
 
