@@ -11,7 +11,7 @@ def ball_movement():
 	if ball.left <= 0 or ball.right >= screen_width:
 		ball_reset()
 
-	if ball.colliderect(player) or ball.colliderect(computer):
+	if ball.colliderect(player) or ball.colliderect(computer_player):
 		ball_speed_x *= -1
 
 def player_movement():
@@ -22,16 +22,16 @@ def player_movement():
 	if player.bottom >= screen_height:
 		player.bottom = screen_height
 
-def computer_movement():
-	if computer.top < ball.y:
-		computer.y += computer_speed
-	if computer.bottom > ball.y:
-		computer.y -= computer_speed
+def computer_player_movement():
+	if computer_player.top < ball.y:
+		computer_player.y += computer_player_speed
+	if computer_player.bottom > ball.y:
+		computer_player.y -= computer_player_speed
 
-	if computer.top <= 0:
-		computer.top = 0
-	if computer.bottom >= screen_height:
-		computer.bottom = screen_height
+	if computer_player.top <= 0:
+		computer_player.top = 0
+	if computer_player.bottom >= screen_height:
+		computer_player.bottom = screen_height
 
 def ball_reset():
 	global ball_speed_x, ball_speed_y
@@ -53,7 +53,7 @@ pygame.display.set_caption('Welcome to BloodyPong!')
 # Rectangles
 ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)
 player = pygame.Rect(screen_width - 20, screen_height / 2 - 70, 10, 140)
-computer = pygame.Rect(10, screen_height / 2 - 70, 10, 140)
+computer_player = pygame.Rect(10, screen_height / 2 - 70, 10, 140)
 
 bg_color = '#1E1D1D'
 my_color = '#C32E2E'
@@ -62,7 +62,7 @@ my_color = '#C32E2E'
 ball_speed_x = 5 * random.choice((1,-1))
 ball_speed_y = 5 * random.choice((1,-1))
 player_speed = 0
-computer_speed = 5
+computer_player_speed = 5
 
 while True:
 	for event in pygame.event.get():
@@ -83,10 +83,10 @@ while True:
 				
 	ball_movement()
 	player_movement()
-	computer_movement()
+	computer_player_movement()
 
 	screen.fill(bg_color)
-	pygame.draw.rect(screen, my_color, computer)
+	pygame.draw.rect(screen, my_color, computer_player)
 	pygame.draw.rect(screen, my_color, player)
 	pygame.draw.ellipse(screen, my_color, ball)
 	pygame.draw.aaline(screen, my_color, (screen_width / 2, 0),(screen_width / 2, screen_height))
