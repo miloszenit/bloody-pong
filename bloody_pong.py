@@ -19,8 +19,22 @@ def ball_movement():
 		score_time = pygame.time.get_ticks()
 		computer_player_score += 1
 
-	if ball.colliderect(player) or ball.colliderect(computer_player):
-		ball_speed_x *= -1
+	# Collisions
+	if ball.colliderect(player) and ball_speed_x > 0:
+		if abs(ball.right - player.left) < 10:
+			ball_speed_x *= -1
+		elif abs(ball.bottom - player.top) < 10 and ball_speed_y > 0:
+			ball_speed_y *= -1
+		elif abs(ball.top - player.bottom) < 10 and ball_speed_y < 0:
+			ball_speed_y *= -1
+
+	if ball.colliderect(computer_player) and ball_speed_x < 0:
+		if abs(ball.left - computer_player.right) < 10:
+			ball_speed_x *= -1
+		elif abs(ball.bottom - computer_player.top) < 10 and ball_speed_y > 0:
+			ball_speed_y *= -1
+		elif abs(ball.top - computer_player.bottom) < 10 and ball_speed_y < 0:
+			ball_speed_y *= -1
 
 def player_movement():
 	player.y += player_speed
