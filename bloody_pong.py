@@ -8,16 +8,19 @@ def ball_movement():
 
 	if ball.top <= 0 or ball.bottom >= screen_height:
 		ball_speed_y *= -1
+		pygame.mixer.Sound.play(hit_sound)
 
 	# Player score	
 	if ball.left <= 0: 
 		score_time = pygame.time.get_ticks()
 		player_score += 1
+		pygame.mixer.Sound.play(score_sound)
 
 	# Computer player score
 	if ball.right >= screen_width:
 		score_time = pygame.time.get_ticks()
 		computer_player_score += 1
+		pygame.mixer.Sound.play(score_sound)
 
 	# Collisions
 	if ball.colliderect(player) and ball_speed_x > 0:
@@ -27,6 +30,7 @@ def ball_movement():
 			ball_speed_y *= -1
 		elif abs(ball.top - player.bottom) < 10 and ball_speed_y < 0:
 			ball_speed_y *= -1
+		pygame.mixer.Sound.play(hit_sound)
 
 	if ball.colliderect(computer_player) and ball_speed_x < 0:
 		if abs(ball.left - computer_player.right) < 10:
@@ -35,6 +39,7 @@ def ball_movement():
 			ball_speed_y *= -1
 		elif abs(ball.top - computer_player.bottom) < 10 and ball_speed_y < 0:
 			ball_speed_y *= -1
+		pygame.mixer.Sound.play(hit_sound)
 
 def player_movement():
 	player.y += player_speed
@@ -68,16 +73,17 @@ def ball_reset():
 		timer_three = basic_font.render("3", False, my_color)
 		screen.blit(timer_three,(screen_width/2 - 10, screen_height/2 + 20))
 
-	if 700 < current_time - score_time < 1200:
+	if 600 < current_time - score_time < 1200:
 		timer_two = basic_font.render("2", False, my_color)
 		screen.blit(timer_two,(screen_width/2 - 10, screen_height/2 + 20))
 
-	if 1400 < current_time - score_time < 1800:
+	if 1200 < current_time - score_time < 1800:
 		timer_one = basic_font.render("1", False, my_color)
 		screen.blit(timer_one,(screen_width/2 - 10, screen_height/2 + 20))
 
 	if current_time - score_time < 1800:
 		ball_speed_y, ball_speed_x = 0,0
+		pygame.mixer.Sound.play(timer_sound)
 	else:
 		ball_speed_x = 5 * random.choice((1,-1))
 		ball_speed_y = 5 * random.choice((1,-1))
@@ -112,6 +118,13 @@ player_score = 0
 computer_player_score = 0
 basic_font = pygame.font.Font('freesansbold.ttf', 32)
 score_time = True
+
+# Sounds
+hit_sound = pygame.mixer.Sound("sounds\\tennis.mp3")
+timer_sound = pygame.mixer.Sound("sounds\\mac.wav")
+score_sound = pygame.mixer.Sound("sounds\\zombie.wav")
+game_music = pygame.mixer.Sound("sounds\\scary_music.mp3")
+pygame.mixer.Sound.play(game_music)
 
 while True:
 	for event in pygame.event.get():
@@ -150,4 +163,4 @@ while True:
 	screen.blit(computer_player_text,(355, 30))
 
 	pygame.display.flip()
-	clock.tick(140)
+	clock.tick(100)
