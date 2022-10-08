@@ -21,6 +21,17 @@ def player_movement():
 		player.top = 0
 	if player.bottom >= screen_height:
 		player.bottom = screen_height
+
+def computer_movement():
+	if computer.top < ball.y:
+		computer.y += computer_speed
+	if computer.bottom > ball.y:
+		computer.y -= computer_speed
+
+	if computer.top <= 0:
+		computer.top = 0
+	if computer.bottom >= screen_height:
+		computer.bottom = screen_height
 		
 # BloddyPong general setup
 pygame.init()
@@ -41,9 +52,10 @@ bg_color = '#1E1D1D'
 my_color = '#C32E2E'
 
 # Variables
-ball_speed_x = 10
-ball_speed_y = 10
+ball_speed_x = 5
+ball_speed_y = 5
 player_speed = 0
+computer_speed = 5
 
 while True:
 	for event in pygame.event.get():
@@ -53,17 +65,18 @@ while True:
 
 		if event.type == pygame.KEYDOWN:
 			if event.key == pygame.K_UP:
-				player_speed -= 10
+				player_speed -= 4
 			if event.key == pygame.K_DOWN:
-				player_speed += 10
+				player_speed += 4
 		if event.type == pygame.KEYUP:
 			if event.key == pygame.K_UP:
-				player_speed += 10
+				player_speed += 4
 			if event.key == pygame.K_DOWN:
-				player_speed -= 10
+				player_speed -= 4
 				
 	ball_movement()
 	player_movement()
+	computer_movement()
 
 	screen.fill(bg_color)
 	pygame.draw.rect(screen, my_color, computer)
